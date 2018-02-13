@@ -3,3 +3,4 @@ sudo: false
 script: 
  cd ./eoa-all
  mvn clean verify
+ mvn install
