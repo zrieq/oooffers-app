@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+
+<tiles-definitions>  
+ 
+   <!-- Base Definition -->
+   <definition name="base-definition" 
+       template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">  
+       <put-attribute name="title" value="" />  
+       <put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />  
+       <put-attribute name="menu" value="/WEB-INF/views/tiles/template/defaultMenu.jsp" />
+       <put-attribute name="message" value="" />  
+       <put-attribute name="search" value="" />  
+       <put-attribute name="body" value="" />
+       <put-attribute name="footer" value="/WEB-INF/views/tiles/template/defaultFooter.jsp" />  
+   </definition> 
+   
+   <!-- Ajax Definition -->
+   <definition name="ajax-definition" 
+       template="/WEB-INF/views/tiles/layouts/ajaxLayout.jsp">  
+       <put-attribute name="message" value="" /> 
+       <put-attribute name="search" value="" />  
+       <put-attribute name="body" value="" />
+   </definition>  
+ 
+   <!-- Home Page -->
+   <definition name="home" extends="base-definition">  
+       <put-attribute name="title" value="Welcome" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />  
+   </definition>  
+
+	<!-- Hotel offers with results Page -->
+   <definition name="hotelOffersSearch" extends="base-definition">  
+       <put-attribute name="title" value="Hotel Offers Search" />
+       <put-attribute name="search" value="/WEB-INF/views/pages/searchForm.jsp" />
+   </definition>
+   
+   <!-- Hotel offers with results Page -->
+   <definition name="hotelOffersSearchResults" extends="base-definition">  
+       <put-attribute name="title" value="Hotel Offers Result" />
+       <put-attribute name="menu" value="/WEB-INF/views/pages/filtersMenu.jsp" />  
+       <put-attribute name="search" value="/WEB-INF/views/pages/searchForm.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/pages/hotelOffersSearchResults.jsp" />  
+   </definition>  
+   
+   <!-- Hotel offers without results Page -->
+   <definition name="hotelOffersSearchZeroResults" extends="base-definition">  
+       <put-attribute name="title" value="Hotel Offers Result" />
+       <put-attribute name="search" value="/WEB-INF/views/pages/searchForm.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/pages/hotelOffersSearchResults.jsp" />  
+   </definition>  
+      
+   <!-- Contact-us Page -->
+   <definition name="contactus" extends="base-definition">  
+       <put-attribute name="title" value="Contact Us" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/contactus.jsp" />  
+   </definition>  
+ 	
+ 	 <!-- Hotel offers Ajax Results -->
+ 	<definition name="ajax.hotelOffersSearchResults" extends="ajax-definition">  
+       <put-attribute name="search" value="/WEB-INF/views/pages/searchForm.jsp" />
+       <put-attribute name="body" value="/WEB-INF/views/pages/hotelOffersSearchResults.jsp" />  
+   </definition>  
+</tiles-definitions>
