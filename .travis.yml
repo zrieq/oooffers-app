@@ -1,5 +1,5 @@
 language: java
 sudo: false
 script: 
--cd ./eoa-all
--mvn clean verify
+ -cd ./eoa-all
+ -mvn clean verify
