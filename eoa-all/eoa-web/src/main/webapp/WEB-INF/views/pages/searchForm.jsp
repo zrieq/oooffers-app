@@ -19,7 +19,7 @@
 									</div>
 									<div class="col-sm-5">
 										<div class="input-group col-sm-12" id="hotelSearchTitle">
-											<h3>Search Hotel Offers:</h3>
+											<h3>Search Hotel Offers</h3>
 										</div>
 									</div>
 								</div>

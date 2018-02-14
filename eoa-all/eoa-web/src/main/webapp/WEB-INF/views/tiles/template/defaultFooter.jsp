@@ -1,3 +1,3 @@
 <div>
-  © 2018 Oooffers Inc
+  © 2018 Oooffers Inc.
 </div>

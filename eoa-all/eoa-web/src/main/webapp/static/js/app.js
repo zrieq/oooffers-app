@@ -40,7 +40,18 @@ $(document).ready(
 						+ $(window).scrollLeft() + "px");
 				return this;
 			};
-
+			
+			$(function(){
+			    var current = location.pathname;
+			    $('.nav li a').each(function(){
+			        var $this = $(this);
+			        // if the current path is like this link, make it active
+			        if($this.attr('href').indexOf(current) !== -1){
+			            $this.parent().addClass('active');
+			        }
+			    });
+			})
+			
 			initFiltersSection();
 			initSearchDatePickers();
 			initHotelsRating();
@@ -62,13 +73,13 @@ function resetFilterButton(e, filterRadioSelector, resetFilterButtonElement) {
 		$(this).prop('checked', false);
 	});
 	$(resetFilterButtonElement).hide();
-	performAjaxCall(applicationContext + "hotel-offers/search",
+	performAjaxCall(applicationContext + "hotel-offers/search-ajax",
 			getInputValues());
 }
 
 function filterInputChange(resetFilterButtonID) {
 	$(resetFilterButtonID).show();
-	performAjaxCall(applicationContext + "hotel-offers/search",
+	performAjaxCall(applicationContext + "hotel-offers/search-ajax",
 			getInputValues());
 }
 

@@ -10,6 +10,9 @@
 <title>
 	<tiles:getAsString name="title" />
 </title>
+<link rel="icon" href="<c:url value='/static/img/favicon.ico'/>" type="image/x-icon">
+<link rel="shortcut icon" href="<c:url value='/static/img/favicon.ico'/>" type="image/x-icon"> 
+
 <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"></link>
 <link href="<c:url value='/static/css/bootstrap-datepicker.standalone.min.css' />" rel="stylesheet"></link>
 <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
@@ -42,8 +45,8 @@
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li class="active">
-						<a href="${pageContext.request.contextPath}/">Home</a>
+					<li>
+						<a href="${pageContext.request.contextPath}/home">Home</a>
 					</li>
 					<li>
 						<a href="${pageContext.request.contextPath}/hotel-offers">Hotels</a>

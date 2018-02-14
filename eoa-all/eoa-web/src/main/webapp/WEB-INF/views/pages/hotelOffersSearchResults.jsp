@@ -5,7 +5,7 @@
 <c:choose>
 	<c:when test="${not empty hotelOffersModel.offers.hotel}">
 		<c:forEach var="hotel" items="${hotelOffersModel.offers.hotel}">
-			<c:set var="hotelUrl" value = "${fn:replace(hotel.hotelInfo.hotelImageUrl, '_t.jpg', '_y.jpg')}" />
+			<c:set var="hotelUrl" value = "${fn:replace(hotel.hotelInfo.hotelImageUrl, '_t.jpg', '_b.jpg')}" />
 			<div class="col-md-12 panel-padding lib-item" data-category="view">
 				<div class="lib-panel">
 					<div class="row box-shadow">
@@ -69,7 +69,7 @@
 		</c:forEach>
 	</c:when>
 	<c:otherwise>
-   <h2>No results found for your search ...</h2> 
+   <h3>No results found for your search ...</h3> 
   </c:otherwise>
 </c:choose>
 
