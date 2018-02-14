@@ -60,5 +60,11 @@
  	<definition name="ajax.hotelOffersSearchResults" extends="ajax-definition">  
        <put-attribute name="search" value="/WEB-INF/views/pages/searchForm.jsp" />
        <put-attribute name="body" value="/WEB-INF/views/pages/hotelOffersSearchResults.jsp" />  
+   </definition>
+   
+   <!-- General Error page. -->
+   <definition name="error" extends="base-definition">  
+       <put-attribute name="title" value="Something Went Wrong" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/error.jsp" />  
    </definition>  
 </tiles-definitions>

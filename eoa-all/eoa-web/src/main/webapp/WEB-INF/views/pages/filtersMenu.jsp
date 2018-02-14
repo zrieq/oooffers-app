@@ -1,5 +1,5 @@
 <nav>
-	<h3> Filter Options: </h3>
+	<h3> Filter Options </h3>
 	<div id="guestRatingFilterContainer" class="filter-padding">
 		<fieldset>
 			<details open>

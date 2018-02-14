@@ -16,15 +16,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.oooffers.common.util.Util;
 import com.oooffers.common.util.constant.EOAConstants;
 import com.oooffers.common.util.exception.EOAException;
 import com.oooffers.web.helper.HotelOffersControllerHelper;
 import com.oooffers.web.model.HotelOffersModel;
-import com.oooffers.web.model.HotelOffersWrapper;
 import com.oooffers.web.model.SearchForm;
-import com.oooffers.web.service.OooffersService;
 
 /**
  * @author Zrieq
@@ -36,49 +35,37 @@ public class HotelOffersController {
 
 	private final static Logger LOG = LoggerFactory.getLogger(HotelOffersController.class);
 
-	@Resource(name = "oooffersSvc")
-	private OooffersService oooffersService;
-
 	@Resource
 	private HotelOffersControllerHelper hotelOffersControllerHelper;
 
-	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
-	public String filterHotelOffers(@ModelAttribute("searchForm") SearchForm searchForm, BindingResult result,
-			@RequestParam Map<String, Object> allRequestParams, ModelMap model) {
-		try {
-			LOG.info("searchForm data: " + searchForm.toString());
-			LOG.info("allRequestParams data: " + Util.returnMapEntriesAsString(allRequestParams));
+	@RequestMapping(value = { "/search-ajax" }, method = RequestMethod.GET)
+	public String filterHotelOffersAjax(@ModelAttribute("searchForm") SearchForm searchForm, BindingResult result,
+			@RequestParam Map<String, Object> allRequestParams, ModelMap model) throws EOAException {
+		LOG.info("searchForm data: " + searchForm.toString());
+		LOG.info("allRequestParams data: " + Util.returnMapEntriesAsString(allRequestParams));
 
-			hotelOffersControllerHelper.processSearchForm(searchForm);
-			HotelOffersWrapper hotelOffersWrapper = hotelOffersControllerHelper.prepareHotelOffersWrapper(searchForm, allRequestParams);
-
-			HotelOffersModel hotelOffersModel = oooffersService.getHotelOffers(hotelOffersWrapper);
-			model.put(EOAConstants.KEY_HOTEL_OFFERS_MODEL, hotelOffersModel);
-		} catch (EOAException e) {
-			LOG.error(e.getErrorMessage(), e);
-			// TODO error shall be redirected to human friendly error page to contact support
-		}
+		hotelOffersControllerHelper.executeHotelOffersSearch(searchForm, allRequestParams, model);
 
 		return "ajax.hotelOffersSearchResults";
 	}
 
+	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
+	public ModelAndView hotelOffersSearchGet() {
+		ModelAndView modelAndView = new ModelAndView("hotelOffersSearch", EOAConstants.KEY_SEARCH_FORM, new SearchForm());
+		return modelAndView;
+	}
+
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST)
-	public String hotelOffersSearch(@ModelAttribute("searchForm") SearchForm searchForm, BindingResult result, ModelMap model) {
-		try {
-			LOG.info("searchForm data: " + searchForm.toString());
-			hotelOffersControllerHelper.processSearchForm(searchForm);
+	public String hotelOffersSearchPost(@ModelAttribute("searchForm") SearchForm searchForm, BindingResult result, ModelMap model) throws EOAException {
+		LOG.info("searchForm data: " + searchForm.toString());
+		
+		hotelOffersControllerHelper.executeHotelOffersSearch(searchForm, null, model);
 
-			HotelOffersWrapper prepareHotelOffersWrapper = hotelOffersControllerHelper.prepareHotelOffersWrapper(searchForm, null);
-			HotelOffersModel hotelOffersModel = oooffersService.getHotelOffers(prepareHotelOffersWrapper);
-			// set result model to be used by views.
-			model.put(EOAConstants.KEY_HOTEL_OFFERS_MODEL, hotelOffersModel);
+		HotelOffersModel hotelOffersModel = (HotelOffersModel) model.get(EOAConstants.KEY_HOTEL_OFFERS_MODEL);
 
-			if (hotelOffersModel.getOffers() != null && hotelOffersModel.getOffers().getHotel() != null
-					&& hotelOffersModel.getOffers().getHotel().size() > 0) {
-				return "hotelOffersSearchResults";
-			}
-		} catch (EOAException e) {
-			LOG.error(e.getErrorMessage(), e);
+		if (hotelOffersModel.getOffers() != null && hotelOffersModel.getOffers().getHotel() != null
+				&& hotelOffersModel.getOffers().getHotel().size() > 0) {
+			return "hotelOffersSearchResults";
 		}
 
 		return "hotelOffersSearchZeroResults";

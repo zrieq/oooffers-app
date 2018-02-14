@@ -7,14 +7,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.ModelMap;
 
 import com.oooffers.common.util.Util;
 import com.oooffers.common.util.constant.EOAConstants;
+import com.oooffers.common.util.constant.EOAConstants.PRICE_PER_NIGHT_FILTER_OPTIONS;
+import com.oooffers.common.util.exception.EOAException;
+import com.oooffers.web.model.HotelOffersModel;
 import com.oooffers.web.model.HotelOffersWrapper;
 import com.oooffers.web.model.SearchForm;
+import com.oooffers.web.service.OooffersService;
 
 /**
  * @author Zrieq
@@ -24,8 +31,21 @@ import com.oooffers.web.model.SearchForm;
 public class HotelOffersControllerHelper {
 
 	private final static Logger LOG = LoggerFactory.getLogger(HotelOffersControllerHelper.class);
+	
+	@Resource(name = "oooffersSvc")
+	private OooffersService oooffersService;
+	
+	public void executeHotelOffersSearch(SearchForm searchForm, Map<String, Object> allRequestParams, ModelMap model) throws EOAException {
+		processSearchForm(searchForm);
 
-	public void processSearchForm(SearchForm searchForm) {
+		HotelOffersWrapper hotelOffersWrapper = prepareHotelOffersWrapper(searchForm, allRequestParams);
+
+		HotelOffersModel hotelOffersModel = oooffersService.getHotelOffers(hotelOffersWrapper);
+
+		model.put(EOAConstants.KEY_HOTEL_OFFERS_MODEL, hotelOffersModel);
+	}
+	
+	private void processSearchForm(SearchForm searchForm) {
 		// set up a default tripStrat Date if nothing is passed
 		if (searchForm.getTripStartDate() == null) {
 			LOG.info("TripStartDate is null. We will set todays date as the TripStartDate .");
@@ -42,7 +62,7 @@ public class HotelOffersControllerHelper {
 		}
 	}
 
-	public HotelOffersWrapper prepareHotelOffersWrapper(SearchForm searchForm, Map<String, Object> requestParam) {
+	private HotelOffersWrapper prepareHotelOffersWrapper(SearchForm searchForm, Map<String, Object> requestParam) {
 		Map<String, Object> filters = prepareFilters(searchForm, requestParam);
 		HotelOffersWrapper hotelOffersWrapper = new HotelOffersWrapper();
 		hotelOffersWrapper.setFilters(filters);
@@ -50,7 +70,7 @@ public class HotelOffersControllerHelper {
 		hotelOffersWrapper.setTripEndDate(searchForm.getTripEndDate());
 		return hotelOffersWrapper;
 	}
-
+	
 	private Map<String, Object> prepareFilters(SearchForm searchForm, Map<String, Object> allRequestParams) {
 		HashMap<String, Object> filters = new HashMap<String, Object>();
 		filters.put(EOAConstants.KEY_DESTINATION_NAME, searchForm.getDestinationFormattedAddress());
@@ -65,35 +85,36 @@ public class HotelOffersControllerHelper {
 		return filters;
 	}
 
-	public void setStarRating(Map<String, Object> filters) {
+	private void setStarRating(Map<String, Object> filters) {
 		String starRating = (String) filters.get(EOAConstants.KEY_STAR_RATING);
 		if (starRating != null && !starRating.isEmpty()) {
-				filters.put(EOAConstants.KEY_MIN_STAR_RATING, starRating);
-				filters.put(EOAConstants.KEY_MAX_STAR_RATING, starRating);
+			filters.put(EOAConstants.KEY_MIN_STAR_RATING, starRating);
+			filters.put(EOAConstants.KEY_MAX_STAR_RATING, starRating);
 		}
 	}
 
 	private void setAverageRateFilter(Map<String, Object> filters) {
 		String averageRate = (String) filters.get(EOAConstants.KEY_AVG_RATE);
 		if (averageRate != null && !averageRate.isEmpty()) {
-			int avgRateInt = new Integer(averageRate);
+			PRICE_PER_NIGHT_FILTER_OPTIONS pricePerNight = PRICE_PER_NIGHT_FILTER_OPTIONS.valueOf(averageRate);
+
 			int minRate, maxRate;
 			minRate = maxRate = -1;
 			// Remove the totalAverageRate param to replace it with minTotalRate & maxTotalRate
 			filters.remove(EOAConstants.KEY_AVG_RATE);
-			switch (avgRateInt) {
-			case 1:
+			switch (pricePerNight) {
+			case OPT_PRICE_BELOW_75:
 				maxRate = EOAConstants.RATE_INT_74;
 				break;
-			case 2:
+			case OPT_PRICE_BETWEEN_75_AND_124:
 				minRate = EOAConstants.RATE_INT_75;
 				maxRate = EOAConstants.RATE_INT_124;
 				break;
-			case 3:
+			case OPT_PRICE_BETWEEN_125_AND_199:
 				minRate = EOAConstants.RATE_INT_125;
 				maxRate = EOAConstants.RATE_INT_199;
 				break;
-			case 4:
+			case OPT_PRICE_ABOVE_200:
 				minRate = EOAConstants.RATE_INT_200;
 				break;
 			default:
