@@ -26,7 +26,7 @@ public class HomeController {
 
 	private final static Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String homePage(ModelMap model) {
 		return "home";
 	}
@@ -48,4 +48,8 @@ public class HomeController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = { "/error" }, method = RequestMethod.GET)
+	public String error(ModelMap model) {
+		return "error";
+	}
 }

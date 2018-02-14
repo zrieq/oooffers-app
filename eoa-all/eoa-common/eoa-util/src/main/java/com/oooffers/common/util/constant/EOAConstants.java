@@ -3,6 +3,9 @@
  */
 package com.oooffers.common.util.constant;
 
+import com.oooffers.common.util.exception.EOAException;
+import com.oooffers.common.util.exception.ErrorCode;
+
 /**
  * @author Zrieq
  * 
@@ -37,18 +40,26 @@ public final class EOAConstants {
 	public enum PRODUCT_TYPE {
 		HOTEL
 	}
-	
+
 	public enum PRICE_PER_NIGHT_FILTER_OPTIONS {
-		OPT_PRICE_BELOW_75(1),OPT_PRICE_BETWEEN_75_AND_124(2),OPT_PRICE_BETWEEN_125_AND_199(3),OPT_PRICE_ABOVE_200(4);
-		
-		private int value;
-		
+		OPT_PRICE_BELOW_75(1), OPT_PRICE_BETWEEN_75_AND_124(2), OPT_PRICE_BETWEEN_125_AND_199(3), OPT_PRICE_ABOVE_200(4);
+
+		public int value;
+
 		private PRICE_PER_NIGHT_FILTER_OPTIONS(int value) {
 			this.value = value;
 		}
-		
+
 		public int getValue() {
 			return value;
+		}
+
+		public static PRICE_PER_NIGHT_FILTER_OPTIONS getPricePerNightFilterOptionByValue(int priceOptionIntValue) throws EOAException {
+			for (PRICE_PER_NIGHT_FILTER_OPTIONS priceOption : PRICE_PER_NIGHT_FILTER_OPTIONS.values())
+				if (priceOption.value == priceOptionIntValue)
+					return priceOption;
+			throw new EOAException(ErrorCode.EOA_PARSING_ERROR, "priceOptionIntValue=[" + priceOptionIntValue
+					+ "], not defind in PRICE_PER_NIGHT_FILTER_OPTIONS enum");
 		}
 	}
 }
