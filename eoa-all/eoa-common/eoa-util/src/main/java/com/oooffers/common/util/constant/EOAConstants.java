@@ -42,6 +42,7 @@ public final class EOAConstants {
 	}
 
 	public enum PRICE_PER_NIGHT_FILTER_OPTIONS {
+
 		OPT_PRICE_BELOW_75(1), OPT_PRICE_BETWEEN_75_AND_124(2), OPT_PRICE_BETWEEN_125_AND_199(3), OPT_PRICE_ABOVE_200(4);
 
 		public int value;
