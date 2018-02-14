@@ -31,10 +31,10 @@ import com.oooffers.web.service.OooffersService;
 public class HotelOffersControllerHelper {
 
 	private final static Logger LOG = LoggerFactory.getLogger(HotelOffersControllerHelper.class);
-	
+
 	@Resource(name = "oooffersSvc")
 	private OooffersService oooffersService;
-	
+
 	public void executeHotelOffersSearch(SearchForm searchForm, Map<String, Object> allRequestParams, ModelMap model) throws EOAException {
 		processSearchForm(searchForm);
 
@@ -44,7 +44,7 @@ public class HotelOffersControllerHelper {
 
 		model.put(EOAConstants.KEY_HOTEL_OFFERS_MODEL, hotelOffersModel);
 	}
-	
+
 	private void processSearchForm(SearchForm searchForm) {
 		// set up a default tripStrat Date if nothing is passed
 		if (searchForm.getTripStartDate() == null) {
@@ -62,7 +62,7 @@ public class HotelOffersControllerHelper {
 		}
 	}
 
-	private HotelOffersWrapper prepareHotelOffersWrapper(SearchForm searchForm, Map<String, Object> requestParam) {
+	private HotelOffersWrapper prepareHotelOffersWrapper(SearchForm searchForm, Map<String, Object> requestParam) throws EOAException {
 		Map<String, Object> filters = prepareFilters(searchForm, requestParam);
 		HotelOffersWrapper hotelOffersWrapper = new HotelOffersWrapper();
 		hotelOffersWrapper.setFilters(filters);
@@ -70,8 +70,8 @@ public class HotelOffersControllerHelper {
 		hotelOffersWrapper.setTripEndDate(searchForm.getTripEndDate());
 		return hotelOffersWrapper;
 	}
-	
-	private Map<String, Object> prepareFilters(SearchForm searchForm, Map<String, Object> allRequestParams) {
+
+	private Map<String, Object> prepareFilters(SearchForm searchForm, Map<String, Object> allRequestParams) throws EOAException {
 		HashMap<String, Object> filters = new HashMap<String, Object>();
 		filters.put(EOAConstants.KEY_DESTINATION_NAME, searchForm.getDestinationFormattedAddress());
 
@@ -80,7 +80,7 @@ public class HotelOffersControllerHelper {
 			// TODO: mapping shall be created to move only needed params
 			filters.putAll(allRequestParams);
 			setStarRating(filters);
-			setAverageRateFilter(filters);
+			setPricePerNightFilter(filters);
 		}
 		return filters;
 	}
@@ -93,14 +93,15 @@ public class HotelOffersControllerHelper {
 		}
 	}
 
-	private void setAverageRateFilter(Map<String, Object> filters) {
-		String averageRate = (String) filters.get(EOAConstants.KEY_AVG_RATE);
-		if (averageRate != null && !averageRate.isEmpty()) {
-			PRICE_PER_NIGHT_FILTER_OPTIONS pricePerNight = PRICE_PER_NIGHT_FILTER_OPTIONS.valueOf(averageRate);
+	private void setPricePerNightFilter(Map<String, Object> filters) throws EOAException {
+		String pricePerNightOptionStr = (String) filters.get(EOAConstants.KEY_AVG_RATE);
+		if (pricePerNightOptionStr != null && !pricePerNightOptionStr.isEmpty()) {
+			int pricePerNightOption = new Integer(pricePerNightOptionStr);
+			PRICE_PER_NIGHT_FILTER_OPTIONS pricePerNight = PRICE_PER_NIGHT_FILTER_OPTIONS.getPricePerNightFilterOptionByValue(pricePerNightOption);
 
 			int minRate, maxRate;
 			minRate = maxRate = -1;
-			// Remove the totalAverageRate param to replace it with minTotalRate & maxTotalRate
+			// Remove the pricePerNightOption param to replace it with minTotalRate & maxTotalRate
 			filters.remove(EOAConstants.KEY_AVG_RATE);
 			switch (pricePerNight) {
 			case OPT_PRICE_BELOW_75:
@@ -116,7 +117,6 @@ public class HotelOffersControllerHelper {
 				break;
 			case OPT_PRICE_ABOVE_200:
 				minRate = EOAConstants.RATE_INT_200;
-				break;
 			default:
 				break;
 			}

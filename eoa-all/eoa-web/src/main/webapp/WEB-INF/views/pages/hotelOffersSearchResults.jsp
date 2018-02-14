@@ -69,7 +69,7 @@
 		</c:forEach>
 	</c:when>
 	<c:otherwise>
-   <h3>No results found for your search ...</h3> 
+   <h3>No results found ...</h3> 
   </c:otherwise>
 </c:choose>
 

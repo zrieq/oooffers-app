@@ -3,9 +3,11 @@
  */
 package com.oooffers.web.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,11 +42,20 @@ public class HotelOffersController {
 
 	@RequestMapping(value = { "/search-ajax" }, method = RequestMethod.GET)
 	public String filterHotelOffersAjax(@ModelAttribute("searchForm") SearchForm searchForm, BindingResult result,
-			@RequestParam Map<String, Object> allRequestParams, ModelMap model) throws EOAException {
+			@RequestParam Map<String, Object> allRequestParams, ModelMap model,HttpServletResponse response) {
 		LOG.info("searchForm data: " + searchForm.toString());
 		LOG.info("allRequestParams data: " + Util.returnMapEntriesAsString(allRequestParams));
 
-		hotelOffersControllerHelper.executeHotelOffersSearch(searchForm, allRequestParams, model);
+		try {
+			hotelOffersControllerHelper.executeHotelOffersSearch(searchForm, allRequestParams, model);
+		} catch (Exception e) {
+			try {
+				//Send error code 500 as a response. 
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			} catch (IOException e1) {
+			}
+			return "error";
+		}
 
 		return "ajax.hotelOffersSearchResults";
 	}

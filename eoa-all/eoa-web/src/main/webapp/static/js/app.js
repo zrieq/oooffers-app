@@ -201,7 +201,7 @@ function performAjaxCall(url, data) {
 		url : url,
 		data : data,
 		error : function() {
-
+			window.location.replace(applicationContext + "error");
 		},
 		beforeSend : function() {
 			$('#content').block({

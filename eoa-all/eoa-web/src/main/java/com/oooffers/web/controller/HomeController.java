@@ -48,4 +48,8 @@ public class HomeController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = { "/error" }, method = RequestMethod.GET)
+	public String error(ModelMap model) {
+		return "error";
+	}
 }
