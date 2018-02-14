@@ -22,6 +22,7 @@ import com.oooffers.common.util.constant.EOAConstants;
 import com.oooffers.common.util.exception.EOAException;
 import com.oooffers.web.helper.HotelOffersControllerHelper;
 import com.oooffers.web.model.HotelOffersModel;
+import com.oooffers.web.model.HotelOffersWrapper;
 import com.oooffers.web.model.SearchForm;
 import com.oooffers.web.service.OooffersService;
 
@@ -49,9 +50,9 @@ public class HotelOffersController {
 			LOG.info("allRequestParams data: " + Util.returnMapEntriesAsString(allRequestParams));
 
 			hotelOffersControllerHelper.processSearchForm(searchForm);
-			Map<String, Object> filters = hotelOffersControllerHelper.prepareFilters(searchForm, allRequestParams);
+			HotelOffersWrapper hotelOffersWrapper = hotelOffersControllerHelper.prepareHotelOffersWrapper(searchForm, allRequestParams);
 
-			HotelOffersModel hotelOffersModel = oooffersService.getHotelOffers(searchForm.getTripStartDate(), searchForm.getTripEndDate(), filters);
+			HotelOffersModel hotelOffersModel = oooffersService.getHotelOffers(hotelOffersWrapper);
 			model.put(EOAConstants.KEY_HOTEL_OFFERS_MODEL, hotelOffersModel);
 		} catch (EOAException e) {
 			LOG.error(e.getErrorMessage(), e);
@@ -66,8 +67,9 @@ public class HotelOffersController {
 		try {
 			LOG.info("searchForm data: " + searchForm.toString());
 			hotelOffersControllerHelper.processSearchForm(searchForm);
-			Map<String, Object> filters = hotelOffersControllerHelper.prepareFilters(searchForm, null);
-			HotelOffersModel hotelOffersModel = oooffersService.getHotelOffers(searchForm.getTripStartDate(), searchForm.getTripEndDate(), filters);
+
+			HotelOffersWrapper prepareHotelOffersWrapper = hotelOffersControllerHelper.prepareHotelOffersWrapper(searchForm, null);
+			HotelOffersModel hotelOffersModel = oooffersService.getHotelOffers(prepareHotelOffersWrapper);
 			// set result model to be used by views.
 			model.put(EOAConstants.KEY_HOTEL_OFFERS_MODEL, hotelOffersModel);
 

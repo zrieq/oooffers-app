@@ -6,7 +6,7 @@
 	<!-- Configuration for root spring applicationContext -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml
+		<param-value>classpath:spring/root-context.xml
 		</param-value>
 	</context-param>
 
@@ -42,7 +42,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/servlet-context.xml</param-value>
+			<param-value>classpath:spring/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

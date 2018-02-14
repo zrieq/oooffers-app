@@ -17,33 +17,20 @@ $(document).ready(
 			$('#totalRateResetFilterButton').click(
 					function(e) {
 						resetFilterButton(e,
-								'input[name=totalRateRange]:checked', this);
+								'input[name=totalAverageRate]:checked', this);
 					});
-			// function(e) {
-			// e.preventDefault();
-			// $('input[name=minGuestRating]:checked').each(
-			// function() {
-			// $(this).prop('checked', false);
-			// });
-			// $('#rankingResetFilterButton').hide();
-			// performAjaxCall(applicationContext
-			// + "hotel-offers/search", getInputValues());
-			// });
 
 			$('input[type=radio][name=minGuestRating]').change(function(e) {
 				filterInputChange('#rankingResetFilterButton');
 			});
+
 			$('input[type=radio][name=minStarRating]').change(function(e) {
 				filterInputChange('#starRatingResetFilterButton');
 			});
-			$('input[type=radio][name=totalRateRange]').change(function(e) {
+
+			$('input[type=radio][name=totalAverageRate]').change(function(e) {
 				filterInputChange('#totalRateResetFilterButton');
 			});
-			// function() {
-			// $('#rankingResetFilterButton').show();
-			// performAjaxCall(applicationContext
-			// + "hotel-offers/search", getInputValues());
-			// });
 
 			$.fn.center = function center() {
 				this.css("position", "absolute");
@@ -159,11 +146,13 @@ function initSearchDatePickers() {
 		$('#startdate').datepicker('setEndDate', endDate);
 	});
 
-	if($('#endDateInput').val()!=""){
-		$('#startdate').datepicker('setEndDate', new Date($('#endDateInput').val()));
+	if ($('#endDateInput').val() != "") {
+		$('#startdate').datepicker('setEndDate',
+				new Date($('#endDateInput').val()));
 	}
-	if($('#startDateInput').val()!=""){
-		$('#enddate').datepicker('setStartDate', new Date($('#startDateInput').val()));
+	if ($('#startDateInput').val() != "") {
+		$('#enddate').datepicker('setStartDate',
+				new Date($('#startDateInput').val()));
 	}
 }
 function initLocationPicker() {
@@ -189,7 +178,7 @@ function initLocationPicker() {
 					'place_changed',
 					function() {
 						var place = autocomplete.getPlace();
-						if (place.name != "") {
+						if (typeof place.formatted_address !== "undefined") {
 							document.getElementById('pac-input').value = place.formatted_address;
 						}
 					});

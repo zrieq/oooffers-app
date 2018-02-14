@@ -22,15 +22,15 @@ import com.oooffers.common.util.exception.ErrorCode;
 /**
  * 
  * @author Zrieq
- *
+ * 
  */
 public class Util {
-	
+
 	private final static Logger LOG = LoggerFactory.getLogger(Util.class);
-	
+
 	private Util() {
 	}
-	
+
 	private static final ThreadLocal<SimpleDateFormat> formatter = new ThreadLocal<SimpleDateFormat>() {
 		@Override
 		protected SimpleDateFormat initialValue() {
@@ -51,30 +51,32 @@ public class Util {
 		}
 		return null;
 	}
-	
-	public static Date addDaysToDate(Date date,int days){
+
+	public static Date addDaysToDate(Date date, int days) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
-		c.add(Calendar.DATE, days);  
+		c.add(Calendar.DATE, days);
 		return c.getTime();
 	}
-	
+
 	public static int getDifferenceDays(Date d1, Date d2) {
-	    long diff = d2.getTime() - d1.getTime();
-	    return new Integer(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)+"");
+		long diff = d2.getTime() - d1.getTime();
+		return new Integer(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + "");
 	}
-	
+
 	public static String returnMapEntriesAsString(Map map) {
 		StringBuilder sb = new StringBuilder();
-		Iterator<Entry> iter = map.entrySet().iterator();
-		while (iter.hasNext()) {
-			Entry entry = iter.next();
-			sb.append(entry.getKey());
-			sb.append('=').append('"');
-			sb.append(entry.getValue());
-			sb.append('"');
-			if (iter.hasNext()) {
-				sb.append(',').append(' ');
+		if (map != null) {
+			Iterator<Entry> iter = map.entrySet().iterator();
+			while (iter.hasNext()) {
+				Entry entry = iter.next();
+				sb.append(entry.getKey());
+				sb.append('=').append('"');
+				sb.append(entry.getValue());
+				sb.append('"');
+				if (iter.hasNext()) {
+					sb.append(',').append(' ');
+				}
 			}
 		}
 		return sb.toString();
@@ -94,7 +96,7 @@ public class Util {
 		}
 		return sb.toString();
 	}
-	
+
 	public static String getString(ResourceBundle bundle, String key, Object... params) {
 		try {
 			return MessageFormat.format(bundle.getString(key), params);
@@ -103,5 +105,5 @@ public class Util {
 			return '!' + key + '!';
 		}
 	}
-	
+
 }

@@ -45,20 +45,17 @@
 								<span class="pull-right"><c:out value="${hotel.hotelInfo.hotelReviewTotal}" /> reviews</span>
 							</div>
 							<div class="col-md-12 panel-elements-padding">
-								<c:choose>
-								<c:when test="${hotel.hotelPricingInfo.percentSavings ne 0}">
-									<div class="col-md-6">
-									<span class="pull-right text-large"><del><i class="fa fa-<c:out value='${hotel.hotelPricingInfo.currency}'/>"></i><c:out value="${hotel.hotelPricingInfo.crossOutPriceValue}" /></del></span>
-									</div>
-									<div class="col-md-6">
-								</c:when>
-								<c:otherwise>
-									<div>
-								</c:otherwise>
-								</c:choose>
-								
-								<span class="pull-right text-large"><i class="fa fa-<c:out value='${hotel.hotelPricingInfo.currency}'/>"></i><c:out value="${hotel.hotelPricingInfo.averagePriceValue}" /></span>
+								<div>
+									<span class="pull-right text-large"><i class="fa fa-<c:out value='${hotel.hotelPricingInfo.currency}'/>"></i><c:out value="${hotel.hotelPricingInfo.averagePriceValue}" /></span>
 								</div>
+								<c:if test="${hotel.hotelPricingInfo.percentSavings ne 0}">
+									<div>
+										<span class="pull-right text-large panel-elements-right-padding"><del><i class="fa fa-<c:out value='${hotel.hotelPricingInfo.currency}'/>"></i><c:out value="${hotel.hotelPricingInfo.crossOutPriceValue}" /></del></span>
+									</div>
+								 </c:if>
+							</div>
+							<div class="col-md-12 panel-elements-padding">
+							<span class="pull-right small"><b>Avg/Night</b></span>
 							</div>
 							<c:if test="${hotel.hotelPricingInfo.percentSavings ne 0}">
 									<div class="col-md-12">

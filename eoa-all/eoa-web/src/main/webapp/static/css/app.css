@@ -143,6 +143,10 @@ footer {
 	padding-bottom: 5px;
 }
 
+.panel-elements-right-padding {
+	padding-right: 10px;
+}
+
 .right {
 	float: right;
 }

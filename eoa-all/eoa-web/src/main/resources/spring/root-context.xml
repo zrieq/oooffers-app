@@ -17,7 +17,7 @@
 	</bean>
 	
 	<bean id="webDozerMapper" class="org.dozer.spring.DozerBeanMapperFactoryBean">
-		<property name="mappingFiles" value="/WEB-INF/dozer/eoa-web-dozerbeanmappings.xml" />
+		<property name="mappingFiles" value="classpath*:/dozer/eoa-web-dozerbeanmappings.xml" />
 	</bean>
 	
 </beans>

@@ -65,19 +65,19 @@
 				</summary>
 				<div id="totalRate">
 					<label id="totalRate-1-label">
-						<input type="radio" id="totalRate1" name="totalRateRange" value="1">
+						<input type="radio" id="totalRate1" name="totalAverageRate" value="1">
 						<span>Less than $75</span>
 					</label>
 					<label id="totalRate-2-label">
-						<input type="radio" id="totalRate2" name="totalRateRange" value="2">
+						<input type="radio" id="totalRate2" name="totalAverageRate" value="2">
 						<span>$75 to $124</span>
 					</label>
 					<label id="totalRate-3-label">
-						<input type="radio" id="totalRate3" name="totalRateRange" value="3">
+						<input type="radio" id="totalRate3" name="totalAverageRate" value="3">
 						<span>$125 to $199</span>
 					</label>
 					<label id="totalRate-4-label">
-						<input type="radio" id="totalRate4" name="totalRateRange" value="4">
+						<input type="radio" id="totalRate4" name="totalAverageRate" value="4">
 						<span>more than $200</span>
 					</label>
 				</div>

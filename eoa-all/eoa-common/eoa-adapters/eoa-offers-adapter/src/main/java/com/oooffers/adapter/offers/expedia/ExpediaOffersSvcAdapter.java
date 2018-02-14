@@ -4,6 +4,7 @@
 package com.oooffers.adapter.offers.expedia;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class ExpediaOffersSvcAdapter implements IOffersSvc {
 	@Override
 	public GetOffersResponse getOffers(Date tripStartDate, int lengthOfStay, Map<String, Object> filters, PRODUCT_TYPE productType)
 			throws EOAException {
-		String methodName="ExpediaOffersSvcAdapter.getOffers()";
+		String methodName = "ExpediaOffersSvcAdapter.getOffers()";
 		GetOffersResponse getOffersResponse = new GetOffersResponse();
 		// TODO: add needed validation for inputs and create helper class to prepare and parse request/response. Also add sufficient logs and
 		// documentation.
@@ -57,6 +58,10 @@ public class ExpediaOffersSvcAdapter implements IOffersSvc {
 	}
 
 	private String prepareEndpointUrl(Date tripStartDate, int lengthOfStay, Map<String, Object> filters) {
+		if (filters == null) {
+			filters = new HashMap<String, Object>();
+		}
+
 		filters.put(EOAConstants.KEY_PRODUCT_TYPE, PRODUCT_TYPE.HOTEL);
 		String startDateStr = Util.formatDate(tripStartDate);
 		filters.put(EOAConstants.KEY_MIN_TRIP_START_DATE, startDateStr);
