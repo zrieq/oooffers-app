@@ -12,7 +12,7 @@ $(document).ready(
 			$('#starRatingResetFilterButton').click(
 					function(e) {
 						resetFilterButton(e,
-								'input[name=minStarRating]:checked', this);
+								'input[name=starRating]:checked', this);
 					});
 			$('#totalRateResetFilterButton').click(
 					function(e) {
@@ -24,7 +24,7 @@ $(document).ready(
 				filterInputChange('#rankingResetFilterButton');
 			});
 
-			$('input[type=radio][name=minStarRating]').change(function(e) {
+			$('input[type=radio][name=starRating]').change(function(e) {
 				filterInputChange('#starRatingResetFilterButton');
 			});
 

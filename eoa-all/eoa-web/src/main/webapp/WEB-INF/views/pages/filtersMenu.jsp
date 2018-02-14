@@ -38,15 +38,15 @@
 				</summary>
 				<div id="starRating">
 					<label id="starRating5-label">
-						<input type="radio" id="starRating5" name="minStarRating" value="5">
+						<input type="radio" id="starRating5" name="starRating" value="5">
 						<span id="5-stars-filter-input"></span>
 					</label>
 					<label id="starRating4-label">
-						<input type="radio" id="starRating4" name="minStarRating" value="4">
+						<input type="radio" id="starRating4" name="starRating" value="4">
 						<span id="4-stars-filter-input"></span>
 					</label>
 					<label id="starRating3-label">
-						<input type="radio" id="starRating3" name="minStarRating" value="3">
+						<input type="radio" id="starRating3" name="starRating" value="3">
 						<span id="3-stars-filter-input"></span>
 					</label>
 				</div>
