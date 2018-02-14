@@ -23,6 +23,9 @@ public final class EOAConstants {
 	public static final String KEY_MAX_TOTAL_RATE = "maxTotalRate";
 	public static final String KEY_MIN_AVG_RATE = "minAverageRate";
 	public static final String KEY_MAX_AVG_RATE = "maxAverageRate";
+	public static final String KEY_STAR_RATING = "starRating";
+	public static final String KEY_MIN_STAR_RATING = "minStarRating";
+	public static final String KEY_MAX_STAR_RATING = "maxStarRating";
 
 	public static final int RATE_INT_74 = 74;
 	public static final int RATE_INT_75 = 75;
@@ -33,5 +36,19 @@ public final class EOAConstants {
 
 	public enum PRODUCT_TYPE {
 		HOTEL
+	}
+	
+	public enum PRICE_PER_NIGHT_FILTER_OPTIONS {
+		OPT_PRICE_BELOW_75(1),OPT_PRICE_BETWEEN_75_AND_124(2),OPT_PRICE_BETWEEN_125_AND_199(3),OPT_PRICE_ABOVE_200(4);
+		
+		private int value;
+		
+		private PRICE_PER_NIGHT_FILTER_OPTIONS(int value) {
+			this.value = value;
+		}
+		
+		public int getValue() {
+			return value;
+		}
 	}
 }

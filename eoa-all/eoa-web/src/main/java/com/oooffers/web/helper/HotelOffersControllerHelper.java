@@ -22,9 +22,9 @@ import com.oooffers.web.model.SearchForm;
  */
 @Component(value = "hotelOffersControllerHelper")
 public class HotelOffersControllerHelper {
-	
+
 	private final static Logger LOG = LoggerFactory.getLogger(HotelOffersControllerHelper.class);
-	
+
 	public void processSearchForm(SearchForm searchForm) {
 		// set up a default tripStrat Date if nothing is passed
 		if (searchForm.getTripStartDate() == null) {
@@ -50,7 +50,7 @@ public class HotelOffersControllerHelper {
 		hotelOffersWrapper.setTripEndDate(searchForm.getTripEndDate());
 		return hotelOffersWrapper;
 	}
-	
+
 	private Map<String, Object> prepareFilters(SearchForm searchForm, Map<String, Object> allRequestParams) {
 		HashMap<String, Object> filters = new HashMap<String, Object>();
 		filters.put(EOAConstants.KEY_DESTINATION_NAME, searchForm.getDestinationFormattedAddress());
@@ -59,20 +59,29 @@ public class HotelOffersControllerHelper {
 			// move all params to filters
 			// TODO: mapping shall be created to move only needed params
 			filters.putAll(allRequestParams);
-			setTotalRateFilter(filters);
+			setStarRating(filters);
+			setAverageRateFilter(filters);
 		}
 		return filters;
 	}
-	
-	public void setTotalRateFilter(Map<String, Object> filters) {
-		String totalRate = (String) filters.get(EOAConstants.KEY_AVG_RATE);
-		if (totalRate != null && !totalRate.isEmpty()) {
-			int totalRateInt = new Integer(totalRate);
+
+	public void setStarRating(Map<String, Object> filters) {
+		String starRating = (String) filters.get(EOAConstants.KEY_STAR_RATING);
+		if (starRating != null && !starRating.isEmpty()) {
+				filters.put(EOAConstants.KEY_MIN_STAR_RATING, starRating);
+				filters.put(EOAConstants.KEY_MAX_STAR_RATING, starRating);
+		}
+	}
+
+	private void setAverageRateFilter(Map<String, Object> filters) {
+		String averageRate = (String) filters.get(EOAConstants.KEY_AVG_RATE);
+		if (averageRate != null && !averageRate.isEmpty()) {
+			int avgRateInt = new Integer(averageRate);
 			int minRate, maxRate;
 			minRate = maxRate = -1;
 			// Remove the totalAverageRate param to replace it with minTotalRate & maxTotalRate
 			filters.remove(EOAConstants.KEY_AVG_RATE);
-			switch (totalRateInt) {
+			switch (avgRateInt) {
 			case 1:
 				maxRate = EOAConstants.RATE_INT_74;
 				break;
