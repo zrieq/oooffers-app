@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.oooffers.common.util.Util;
 import com.oooffers.common.util.constant.EOAConstants;
+import com.oooffers.web.model.HotelOffersWrapper;
 import com.oooffers.web.model.SearchForm;
 
 /**
@@ -41,7 +42,16 @@ public class HotelOffersControllerHelper {
 		}
 	}
 
-	public Map<String, Object> prepareFilters(SearchForm searchForm, Map<String, Object> allRequestParams) {
+	public HotelOffersWrapper prepareHotelOffersWrapper(SearchForm searchForm, Map<String, Object> requestParam) {
+		Map<String, Object> filters = prepareFilters(searchForm, requestParam);
+		HotelOffersWrapper hotelOffersWrapper = new HotelOffersWrapper();
+		hotelOffersWrapper.setFilters(filters);
+		hotelOffersWrapper.setTripStartDate(searchForm.getTripStartDate());
+		hotelOffersWrapper.setTripEndDate(searchForm.getTripEndDate());
+		return hotelOffersWrapper;
+	}
+	
+	private Map<String, Object> prepareFilters(SearchForm searchForm, Map<String, Object> allRequestParams) {
 		HashMap<String, Object> filters = new HashMap<String, Object>();
 		filters.put(EOAConstants.KEY_DESTINATION_NAME, searchForm.getDestinationFormattedAddress());
 
@@ -53,38 +63,38 @@ public class HotelOffersControllerHelper {
 		}
 		return filters;
 	}
-
+	
 	public void setTotalRateFilter(Map<String, Object> filters) {
-		String totalRate = (String) filters.get(EOAConstants.KEY_TOTAL_RATE);
+		String totalRate = (String) filters.get(EOAConstants.KEY_AVG_RATE);
 		if (totalRate != null && !totalRate.isEmpty()) {
 			int totalRateInt = new Integer(totalRate);
 			int minRate, maxRate;
 			minRate = maxRate = -1;
-			// Remove the totalRateRange param to replace it with minTotalRate & maxTotalRate
-			filters.remove(EOAConstants.KEY_TOTAL_RATE);
+			// Remove the totalAverageRate param to replace it with minTotalRate & maxTotalRate
+			filters.remove(EOAConstants.KEY_AVG_RATE);
 			switch (totalRateInt) {
 			case 1:
-				maxRate = 75;
+				maxRate = EOAConstants.RATE_INT_74;
 				break;
 			case 2:
-				minRate = 75;
-				maxRate = 124;
+				minRate = EOAConstants.RATE_INT_75;
+				maxRate = EOAConstants.RATE_INT_124;
 				break;
 			case 3:
-				minRate = 125;
-				maxRate = 199;
+				minRate = EOAConstants.RATE_INT_125;
+				maxRate = EOAConstants.RATE_INT_199;
 				break;
 			case 4:
-				minRate = 200;
+				minRate = EOAConstants.RATE_INT_200;
 				break;
 			default:
 				break;
 			}
 			if (minRate != -1) {
-				filters.put(EOAConstants.KEY_MIN_TOTAL_RATE, minRate);
+				filters.put(EOAConstants.KEY_MIN_AVG_RATE, minRate);
 			}
 			if (maxRate != -1) {
-				filters.put(EOAConstants.KEY_MAX_TOTAL_RATE, maxRate);
+				filters.put(EOAConstants.KEY_MAX_AVG_RATE, maxRate);
 			}
 		}
 	}

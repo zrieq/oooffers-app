@@ -2,6 +2,4 @@ language: java
 sudo: false
 jdk: oraclejdk8
 install: true
-script: 
- cd ./eoa-all
- mvn clean install
+script: mvn -f ./eoa-all/pom.xml clean install
