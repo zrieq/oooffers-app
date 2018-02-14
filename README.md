@@ -11,7 +11,7 @@ You need to have the following installed on your machine:
 - Tomcat 7+
 ### Steps
 If you are familiar with the tools, it won't take more that **10 mins** to run the application locally.
- - Download source codes from **[GitHub](https://github.com/zrieq/oooffers-app)** here is.
+ - Download source codes from **GitHub**[here](https://github.com/zrieq/oooffers-app).
  - Open Eclipse and import **eoa-all** project as a maven project.
 	 - From Eclipse, goto File -> import.
 	 - Type "Existing maven projects" -> click next.
