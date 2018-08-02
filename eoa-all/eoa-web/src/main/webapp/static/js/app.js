@@ -4,8 +4,6 @@ $(document).ready(
 		function() {
 			initApplicationContext();
 			
-			$('#userSearchHistoryTable').DataTable();
-			
 			$('#rankingResetFilterButton').click(
 					function(e) {
 						resetFilterButton(e,
@@ -57,6 +55,8 @@ $(document).ready(
 			initFiltersSection();
 			initSearchDatePickers();
 			initHotelsRating();
+			
+			$('#userSearchHistoryTable').DataTable();
 		});
 
 function initApplicationContext() {
