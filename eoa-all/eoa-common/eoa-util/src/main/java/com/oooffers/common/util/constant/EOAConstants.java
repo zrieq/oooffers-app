@@ -3,6 +3,8 @@
  */
 package com.oooffers.common.util.constant;
 
+import java.io.Serializable;
+
 import com.oooffers.common.util.exception.EOAException;
 import com.oooffers.common.util.exception.ErrorCode;
 
@@ -29,6 +31,8 @@ public final class EOAConstants {
 	public static final String KEY_STAR_RATING = "starRating";
 	public static final String KEY_MIN_STAR_RATING = "minStarRating";
 	public static final String KEY_MAX_STAR_RATING = "maxStarRating";
+	public static final String KEY_USER_REGISTER_FORM = "userRegisterForm";
+	public static final String KEY_USER_SEARCH_HISTORY_FORM = "userSearchHistoryForm";
 
 	public static final int RATE_INT_74 = 74;
 	public static final int RATE_INT_75 = 75;
@@ -62,5 +66,20 @@ public final class EOAConstants {
 			throw new EOAException(ErrorCode.EOA_PARSING_ERROR, "priceOptionIntValue=[" + priceOptionIntValue
 					+ "], not defind in PRICE_PER_NIGHT_FILTER_OPTIONS enum");
 		}
+	}
+
+	public enum UserProfileType implements Serializable {
+		USER("USER"), DBA("DBA"), ADMIN("ADMIN");
+
+		String userProfileType;
+
+		private UserProfileType(String userProfileType) {
+			this.userProfileType = userProfileType;
+		}
+
+		public String getUserProfileType() {
+			return userProfileType;
+		}
+
 	}
 }

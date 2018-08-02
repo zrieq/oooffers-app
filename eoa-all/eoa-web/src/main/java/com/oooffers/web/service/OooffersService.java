@@ -4,7 +4,6 @@
 package com.oooffers.web.service;
 
 import java.util.Date;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -20,7 +19,6 @@ import com.oooffers.common.util.exception.EOAException;
 import com.oooffers.domain.GetOffersResponse;
 import com.oooffers.web.model.HotelOffersModel;
 import com.oooffers.web.model.HotelOffersWrapper;
-import com.oooffers.web.model.SearchForm;
 
 /**
  * @author Zrieq
@@ -33,7 +31,7 @@ public class OooffersService {
 
 	@Resource(name = "webDozerMapper")
 	private Mapper mapper;
-
+	
 	@Resource
 	private IOffersSvc offersSvc;
 

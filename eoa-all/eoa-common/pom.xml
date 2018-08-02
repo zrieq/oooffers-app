@@ -10,6 +10,7 @@
   <modules>
   	<module>eoa-domain</module>
   	<module>eoa-util</module>
-  	<module>eoa-adapters</module>
+  	<module>eoa-dao</module>
+  	<module>eoa-adapters</module>  	
   </modules>
 </project>

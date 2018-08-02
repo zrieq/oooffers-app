@@ -3,7 +3,9 @@ var applicationContext;
 $(document).ready(
 		function() {
 			initApplicationContext();
-
+			
+			$('#userSearchHistoryTable').DataTable();
+			
 			$('#rankingResetFilterButton').click(
 					function(e) {
 						resetFilterButton(e,

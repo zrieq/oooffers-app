@@ -4,6 +4,7 @@
 package com.oooffers.web.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -23,7 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.oooffers.common.util.Util;
 import com.oooffers.common.util.constant.EOAConstants;
 import com.oooffers.common.util.exception.EOAException;
+import com.oooffers.domain.User;
+import com.oooffers.domain.UserSearchHistory;
 import com.oooffers.web.helper.HotelOffersControllerHelper;
+import com.oooffers.web.interfaces.UserService;
 import com.oooffers.web.model.HotelOffersModel;
 import com.oooffers.web.model.SearchForm;
 
@@ -36,7 +40,10 @@ import com.oooffers.web.model.SearchForm;
 public class HotelOffersController {
 
 	private final static Logger LOG = LoggerFactory.getLogger(HotelOffersController.class);
-
+	
+	@Resource
+	private UserService userService;
+	
 	@Resource
 	private HotelOffersControllerHelper hotelOffersControllerHelper;
 
@@ -67,8 +74,18 @@ public class HotelOffersController {
 	}
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.POST)
-	public String hotelOffersSearchPost(@ModelAttribute("searchForm") SearchForm searchForm, BindingResult result, ModelMap model) throws EOAException {
+	public String hotelOffersSearchPost(@ModelAttribute("searchForm") SearchForm searchForm, BindingResult result, ModelMap model, Principal principal) throws EOAException {
 		LOG.info("searchForm data: " + searchForm.toString());
+		
+		if(principal != null){
+			UserSearchHistory userSearchHistory = new UserSearchHistory();
+			User loggedUser = userService.findByUsername(principal.getName());
+			userSearchHistory.setUserId(loggedUser.getId());
+			userSearchHistory.setSearchLocation(searchForm.getDestinationFormattedAddress());
+			userSearchHistory.setSearchStartDate(searchForm.getTripStartDate());
+			userSearchHistory.setSearchEndDate(searchForm.getTripEndDate());
+			userService.saveUserSearchHistory(userSearchHistory);
+		}
 		
 		hotelOffersControllerHelper.executeHotelOffersSearch(searchForm, null, model);
 
